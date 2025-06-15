@@ -9,7 +9,7 @@ commands:
     command: "sudo apt update"
 
   02-install-docker:
-    command: "sudo apt install -y docker"
+    command: "sudo apt install -y docker.io"
 
   03-install-docker-compose:
     command: "sudo apt install -y docker-compose"
