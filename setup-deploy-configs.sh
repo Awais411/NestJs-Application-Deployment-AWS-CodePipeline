@@ -6,13 +6,13 @@ mkdir -p .ebextensions
 cat > .ebextensions/docker.config <<EOT
 commands:
   01-update-packages:
-    command: "sudo apt update"
+    command: "dnf update -y"
 
   02-install-docker:
-    command: "sudo apt install -y docker.io"
+    command: "dnf install -y docker"
 
   03-install-docker-compose:
-    command: "sudo apt install -y docker-compose"
+    command: "dnf install -y docker-compose"
 
   04-check-docker:
     command: "docker --version && echo '✅ Docker installed successfully.'"
@@ -25,9 +25,12 @@ commands:
 
   07-install-node:
     command: |
-      curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-      apt-get install -y nodejs
+      dnf install -y gcc-c++ make curl
+      curl -fsSL https://rpm.nodesource.com/setup_20.x | bash -
+      dnf install -y nodejs
 
+  08-check-node:
+    command: "node -v && npm -v && echo '✅ Node.js 20 installed successfully.'"
 EOT
 
 echo "INFO: Creating .platform/hooks/prebuild.sh..."
@@ -35,7 +38,7 @@ mkdir -p .platform/hooks
 cat > .platform/hooks/prebuild.sh <<EOT
 #!/bin/bash
 set -e
-cd /var/app/staging
+cd /var/app/current
 
 echo "INFO: Starting Docker containers..."
 docker-compose up -d
