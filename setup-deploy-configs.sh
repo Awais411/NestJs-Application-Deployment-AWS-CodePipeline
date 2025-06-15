@@ -5,19 +5,22 @@ echo "INFO: Creating .ebextensions/docker.config..."
 mkdir -p .ebextensions
 cat > .ebextensions/docker.config <<EOT
 commands:
-  01-install-docker:
-    command: "yum install -y docker"
+  01-update-packages:
+    command: "sudo apt update"
 
-  02-install-docker-compose:
-    command: "yum install -y docker-compose"
+  02-install-docker:
+    command: "sudo apt install -y docker"
 
-  03-check-docker:
+  03-install-docker-compose:
+    command: "sudo apt install -y docker-compose"
+
+  04-check-docker:
     command: "docker --version && echo '✅ Docker installed successfully.'"
 
-  04-check-docker-compose:
+  05-check-docker-compose:
     command: "docker-compose --version && echo '✅ Docker Compose installed successfully.'"
 
-  05-enable-docker:
+  06-enable-docker:
     command: "systemctl enable docker && systemctl start docker"
 EOT
 
