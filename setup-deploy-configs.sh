@@ -22,6 +22,12 @@ commands:
 
   06-enable-docker:
     command: "systemctl enable docker && systemctl start docker"
+
+  07-install-node:
+    command: |
+      curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+      apt-get install -y nodejs
+
 EOT
 
 echo "INFO: Creating .platform/hooks/prebuild.sh..."
